@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="system">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopMaster — L'Avenir du Commerce</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: #F43F5E;
+            --primary-glow: rgba(244, 63, 94, 0.3);
+            --bg: #05070A;
+            --panel: #0F1219;
+            --text: #F8FAFC;
+            --text-muted: #94A3B8;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(15, 18, 25, 0.8);
+        }
+
+        [data-theme="light"] {
+            --bg: #F8FAFC;
+            --panel: #FFFFFF;
+            --text: #0F172A;
+            --text-muted: #64748B;
+            --border: rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        h1, h2, h3 { font-family: 'Syne', sans-serif; text-transform: uppercase; }
+
+        /* --- HEADER & NAV --- */
+        header {
+            position: fixed;
+            top: 0; width: 100%;
+            padding: 20px 5%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            background: var(--glass);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+
+        .theme-selector, .lang-selector {
+            background: var(--border);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+            position: relative;
+        }
+
+        .hero-badge {
+            background: var(--primary-glow);
+            color: var(--primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border: 1px solid var(--primary);
+        }
+
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; margin-bottom: 20px; }
+        .hero p { max-width: 600px; color: var(--text-muted); margin-bottom: 30px; font-size: 1.2rem; }
+
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 30px var(--primary-glow);
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover { transform: translateY(-5px); }
+
+        /* --- GRID FEATURES --- */
+        .features { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .feature-card {
+            background: var(--panel);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+        .feature-card:hover { border-color: var(--primary); }
+        .feature-card i { font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
+
+        /* --- COOKIES --- */
+        #cookie-banner {
+            position: fixed;
+            bottom: 20px; left: 20px; right: 20px;
+            background: var(--panel);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: translateY(200%);
+            transition: 0.5s ease;
+        }
+        #cookie-banner.active { transform: translateY(0); }
+
+        /* --- BACKGROUND DECOR --- */
+        .blob {
+            position: absolute;
+            width: 500px; height: 500px;
+            background: var(--primary);
+            filter: blur(150px);
+            opacity: 0.1;
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            #cookie-banner { flex-direction: column; text-align: center; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="blob" style="top: 10%; left: -10%;"></div>
+    <div class="blob" style="bottom: 10%; right: -10%;"></div>
+
+    <header>
+        <div class="logo">SHOPMASTER.</div>
+        <div class="nav-right">
+            <select class="lang-selector" id="langSelect" onchange="updateLang()">
+                <option value="fr">Français</option>
+                <option value="en">English</option>
+            </select>
+            <select class="theme-selector" id="themeSelect" onchange="updateTheme()">
+                <option value="system">💻 System</option>
+                <option value="dark">🌙 Sombre</option>
+                <option value="light">☀️ Clair</option>
+            </select>
+            <a href="/dashboard" class="cta-button" style="padding: 10px 20px; font-size: 0.9rem;" data-t="nav_cta">Dashboard</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-badge" data-t="hero_badge">V2.0 — MAINTENANT DISPONIBLE</div>
+        <h1 data-t="hero_title">Gérez votre empire <br><span style="color: var(--primary)">sans limites.</span></h1>
+        <p data-t="hero_desc">La solution de caisse et de gestion de stock la plus avancée du marché. Intuitive, rapide et conçue pour la performance.</p>
+        <a href="/dashboard" class="cta-button" data-t="hero_cta">Démarrer l'expérience</a>
+    </section>
+
+    <section class="features">
+        <div class="feature-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h3 data-t="f1_title">Vitesse Éclair</h3>
+            <p data-t="f1_desc">Une interface optimisée pour encaisser vos clients en moins de 3 secondes chrono.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fa-solid fa-box"></i>
+            <h3 data-t="f2_title">Stock Intelligent</h3>
+            <p data-t="f2_desc">Soyez alerté avant la rupture. ShopMaster prévoit vos besoins grâce à l'IA.</p>
+        </div>
+        <div class="feature-card">
+            <i class="fa-solid fa-chart-line"></i>
+            <h3 data-t="f3_title">Analyses Réelles</h3>
+            <p data-t="f3_desc">Visualisez vos profits et vos meilleures ventes avec des graphiques haute précision.</p>
+        </div>
+    </section>
+
+    <div id="cookie-banner">
+        <p data-t="cookie_text">Nous utilisons des cookies pour améliorer votre expérience sur ShopMaster.</p>
+        <button onclick="acceptCookies()" class="cta-button" style="padding: 10px 20px;" data-t="cookie_btn">Accepter</button>
+    </div>
+
+    <script>
+        // --- TRANSLATIONS DICTIONARY ---
+        const translations = {
+            fr: {
+                hero_badge: "V2.0 — MAINTENANT DISPONIBLE",
+                hero_title: "Gérez votre empire <br><span style='color: var(--primary)'>sans limites.</span>",
+                hero_desc: "La solution de caisse et de gestion de stock la plus avancée du marché. Intuitive, rapide et conçue pour la performance.",
+                hero_cta: "Démarrer l'expérience",
+                nav_cta: "Accéder au Dashboard",
+                f1_title: "Vitesse Éclair",
+                f1_desc: "Une interface optimisée pour encaisser vos clients en moins de 3 secondes chrono.",
+                f2_title: "Stock Intelligent",
+                f2_desc: "Soyez alerté avant la rupture. ShopMaster prévoit vos besoins grâce à l'IA.",
+                f3_title: "Analyses Réelles",
+                f3_desc: "Visualisez vos profits et vos meilleures ventes avec des graphiques haute précision.",
+                cookie_text: "Nous utilisons des cookies pour améliorer votre expérience sur ShopMaster.",
+                cookie_btn: "Accepter"
+            },
+            en: {
+                hero_badge: "V2.0 — NOW AVAILABLE",
+                hero_title: "Manage your empire <br><span style='color: var(--primary)'>without limits.</span>",
+                hero_desc: "The most advanced POS and stock management solution. Intuitive, fast, and built for performance.",
+                hero_cta: "Start Experience",
+                nav_cta: "Go to Dashboard",
+                f1_title: "Lightning Fast",
+                f1_desc: "Interface optimized to checkout customers in under 3 seconds.",
+                f2_title: "Smart Inventory",
+                f2_desc: "Get alerted before running out. ShopMaster predicts your needs using AI.",
+                f3_title: "Real Analytics",
+                f3_desc: "Visualize profits and top sales with high-precision charts.",
+                cookie_text: "We use cookies to enhance your experience on ShopMaster.",
+                cookie_btn: "Accept"
+            }
+        };
+
+        // --- LANGUAGE LOGIC (IP/Browser based) ---
+        function detectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage;
+            // Si l'utilisateur est en France ou utilise le français, on met FR, sinon EN
+            const lang = userLang.includes('fr') ? 'fr' : 'en';
+            document.getElementById('langSelect').value = lang;
+            applyLang(lang);
+        }
+
+        function updateLang() {
+            const lang = document.getElementById('langSelect').value;
+            applyLang(lang);
+        }
+
+        function applyLang(lang) {
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                el.innerHTML = translations[lang][key];
+            });
+        }
+
+        // --- THEME LOGIC ---
+        function updateTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            if (theme === 'system') {
+                const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+            localStorage.setItem('sm_theme', theme);
+        }
+
+        // --- COOKIES LOGIC ---
+        function acceptCookies() {
+            localStorage.setItem('sm_cookies', 'accepted');
+            document.getElementById('cookie-banner').classList.remove('active');
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            detectLanguage();
+            
+            // Theme recovery
+            const savedTheme = localStorage.getItem('sm_theme') || 'system';
+            document.getElementById('themeSelect').value = savedTheme;
+            updateTheme();
+
+            // Cookie banner
+            if(!localStorage.getItem('sm_cookies')) {
+                setTimeout(() => {
+                    document.getElementById('cookie-banner').classList.add('active');
+                }, 2000);
+            }
+
+            // GSAP Animations
+            gsap.from(".hero h1", { opacity: 0, y: 50, duration: 1, delay: 0.5 });
+            gsap.from(".hero p", { opacity: 0, y: 30, duration: 1, delay: 0.8 });
+            gsap.from(".feature-card", { 
+                scrollTrigger: ".features", 
+                opacity: 0, 
+                y: 100, 
+                stagger: 0.2, 
+                duration: 1 
+            });
+        };
+    </script>
+</body>
+</html>
