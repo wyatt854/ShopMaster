@@ -3,31 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopMaster — L'Avenir du Commerce</title>
+    <title>ShopMaster — Gestion de Point de Vente Gratuite & Illimitée</title>
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary: #F43F5E;
-            --primary-glow: rgba(244, 63, 94, 0.3);
+            --primary-rgb: 244, 63, 94;
             --bg: #05070A;
             --panel: #0F1219;
             --text: #F8FAFC;
             --text-muted: #94A3B8;
-            --border: rgba(255, 255, 255, 0.1);
-            --glass: rgba(15, 18, 25, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(15, 18, 25, 0.85);
         }
 
         [data-theme="light"] {
-            --bg: #F8FAFC;
+            --bg: #F1F5F9;
             --panel: #FFFFFF;
             --text: #0F172A;
             --text-muted: #64748B;
-            --border: rgba(0, 0, 0, 0.1);
-            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(0, 0, 0, 0.08);
+            --glass: rgba(255, 255, 255, 0.85);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,278 +34,363 @@
             font-family: 'Inter', sans-serif; 
             background-color: var(--bg); 
             color: var(--text); 
-            line-height: 1.6;
             overflow-x: hidden;
-            transition: background 0.3s ease;
+            transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        h1, h2, h3 { font-family: 'Syne', sans-serif; text-transform: uppercase; }
+        h1, h2, h3 { font-family: 'Syne', sans-serif; }
 
-        /* --- HEADER & NAV --- */
+        /* --- NAVIGATION --- */
         header {
             position: fixed;
             top: 0; width: 100%;
-            padding: 20px 5%;
+            padding: 15px 5%;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             background: var(--glass);
             border-bottom: 1px solid var(--border);
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
+        .logo { font-size: 1.6rem; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
 
-        .nav-right { display: flex; align-items: center; gap: 20px; }
+        .nav-controls { display: flex; align-items: center; gap: 15px; }
 
-        .theme-selector, .lang-selector {
-            background: var(--border);
-            border: 1px solid var(--border);
+        select {
+            background: var(--panel);
             color: var(--text);
-            padding: 8px;
+            border: 1px solid var(--border);
+            padding: 8px 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            outline: none;
+            font-size: 0.85rem;
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 0 10%;
+            padding: 120px 10% 60px;
             position: relative;
         }
 
         .hero-badge {
-            background: var(--primary-glow);
+            background: rgba(var(--primary-rgb), 0.1);
             color: var(--primary);
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 100px;
             font-size: 0.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border: 1px solid var(--primary);
+            animation: fadeInDown 0.8s ease;
         }
 
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; margin-bottom: 20px; }
-        .hero p { max-width: 600px; color: var(--text-muted); margin-bottom: 30px; font-size: 1.2rem; }
+        .hero h1 { 
+            font-size: clamp(2.5rem, 7vw, 5.5rem); 
+            line-height: 0.95; 
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+        }
 
-        .cta-button {
+        .hero p { 
+            max-width: 800px; 
+            color: var(--text-muted); 
+            margin-bottom: 40px; 
+            font-size: clamp(1.1rem, 2vw, 1.3rem); 
+            line-height: 1.5;
+        }
+
+        /* --- BUTTONS --- */
+        .cta-primary {
             background: var(--primary);
             color: white;
-            padding: 18px 40px;
-            border-radius: 12px;
+            padding: 20px 45px;
+            border-radius: 14px;
             text-decoration: none;
             font-weight: 700;
             font-size: 1.1rem;
-            box-shadow: 0 10px 30px var(--primary-glow);
-            transition: transform 0.3s ease;
+            box-shadow: 0 15px 35px rgba(var(--primary-rgb), 0.3);
+            transition: all 0.3s ease;
+            display: inline-block;
         }
-        .cta-button:hover { transform: translateY(-5px); }
+        .cta-primary:hover { 
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(var(--primary-rgb), 0.5);
+        }
 
-        /* --- GRID FEATURES --- */
-        .features { padding: 100px 5%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .feature-card {
-            background: var(--panel);
-            padding: 40px;
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            transition: 0.3s;
+        /* --- DETAILED CONTENT SECTIONS --- */
+        .section-container { padding: 100px 8%; }
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 120px;
         }
-        .feature-card:hover { border-color: var(--primary); }
-        .feature-card i { font-size: 2rem; color: var(--primary); margin-bottom: 20px; }
+
+        .text-content h2 { font-size: 2.5rem; margin-bottom: 20px; line-height: 1.1; }
+        .text-content p { 
+            color: var(--text-muted); 
+            font-size: 1.05rem; 
+            margin-bottom: 20px; 
+            line-height: 1.7; 
+            text-align: justify;
+        }
+
+        .visual-box {
+            background: var(--panel);
+            height: 400px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-box i { font-size: 8rem; color: var(--primary); opacity: 0.2; }
+
+        /* --- ANIMATIONS --- */
+        .reveal { opacity: 0; transform: translateY(40px); transition: 0.8s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- COOKIES --- */
-        #cookie-banner {
+        #cookie-bar {
             position: fixed;
-            bottom: 20px; left: 20px; right: 20px;
+            bottom: 25px; left: 50%;
+            transform: translate(-50%, 200%);
+            width: 90%; max-width: 600px;
             background: var(--panel);
             border: 1px solid var(--primary);
-            padding: 20px;
-            border-radius: 15px;
+            padding: 20px 30px;
+            border-radius: 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 20px;
             z-index: 2000;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transform: translateY(200%);
-            transition: 0.5s ease;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        #cookie-banner.active { transform: translateY(0); }
+        #cookie-bar.show { transform: translate(-50%, 0); }
 
-        /* --- BACKGROUND DECOR --- */
-        .blob {
-            position: absolute;
-            width: 500px; height: 500px;
-            background: var(--primary);
-            filter: blur(150px);
-            opacity: 0.1;
+        /* --- BACKGROUND EFFECTS --- */
+        .glow {
+            position: fixed;
+            width: 60vw; height: 60vw;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.1) 0%, transparent 70%);
+            top: -30vw; right: -20vw;
+            pointer-events: none;
             z-index: -1;
-            border-radius: 50%;
         }
 
-        @media (max-width: 768px) {
-            header { flex-direction: column; gap: 15px; }
-            #cookie-banner { flex-direction: column; text-align: center; gap: 15px; }
+        @media (max-width: 968px) {
+            .section-grid { grid-template-columns: 1fr; text-align: center; }
+            .section-grid:nth-child(even) { direction: ltr; }
+            .text-content p { text-align: center; }
         }
     </style>
 </head>
 <body>
 
-    <div class="blob" style="top: 10%; left: -10%;"></div>
-    <div class="blob" style="bottom: 10%; right: -10%;"></div>
+    <div class="glow"></div>
 
     <header>
-        <div class="logo">SHOPMASTER.</div>
-        <div class="nav-right">
-            <select class="lang-selector" id="langSelect" onchange="updateLang()">
-                <option value="fr">Français</option>
-                <option value="en">English</option>
+        <div class="logo">SHOPMASTER<span style="color:var(--text-muted)">.</span></div>
+        <div class="nav-controls">
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="fr">🇫🇷 FR</option>
+                <option value="en">🇺🇸 EN</option>
             </select>
-            <select class="theme-selector" id="themeSelect" onchange="updateTheme()">
+            <select id="themeSelect" onchange="changeTheme()">
                 <option value="system">💻 System</option>
-                <option value="dark">🌙 Sombre</option>
-                <option value="light">☀️ Clair</option>
+                <option value="dark">🌙 Dark</option>
+                <option value="light">☀️ Light</option>
             </select>
-            <a href="/dashboard" class="cta-button" style="padding: 10px 20px; font-size: 0.9rem;" data-t="nav_cta">Dashboard</a>
+            <a href="/dashboard" class="cta-primary" style="padding: 10px 20px; font-size: 0.9rem;">Dashboard</a>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-badge" data-t="hero_badge">V2.0 — MAINTENANT DISPONIBLE</div>
-        <h1 data-t="hero_title">Gérez votre empire <br><span style="color: var(--primary)">sans limites.</span></h1>
-        <p data-t="hero_desc">La solution de caisse et de gestion de stock la plus avancée du marché. Intuitive, rapide et conçue pour la performance.</p>
-        <a href="/dashboard" class="cta-button" data-t="hero_cta">Démarrer l'expérience</a>
-    </section>
+    <main>
+        <section class="hero">
+            <div class="hero-badge" data-key="badge">PROJET OPEN-SOURCE GRATUIT</div>
+            <h1 data-key="hero_title">Le futur de votre <br><span style="color:var(--primary)">point de vente.</span></h1>
+            <p data-key="hero_desc">Une solution logicielle complète, sans abonnement caché, conçue pour propulser les commerçants indépendants vers la réussite numérique totale.</p>
+            <div style="display:flex; gap: 15px;">
+                <a href="/dashboard" class="cta-primary" data-key="cta_main">Accéder à ma caisse</a>
+                <a href="#details" class="cta-primary" style="background:transparent; border:1px solid var(--border); box-shadow:none;" data-key="cta_sec">En savoir plus</a>
+            </div>
+        </section>
 
-    <section class="features">
-        <div class="feature-card">
-            <i class="fa-solid fa-bolt"></i>
-            <h3 data-t="f1_title">Vitesse Éclair</h3>
-            <p data-t="f1_desc">Une interface optimisée pour encaisser vos clients en moins de 3 secondes chrono.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fa-solid fa-box"></i>
-            <h3 data-t="f2_title">Stock Intelligent</h3>
-            <p data-t="f2_desc">Soyez alerté avant la rupture. ShopMaster prévoit vos besoins grâce à l'IA.</p>
-        </div>
-        <div class="feature-card">
-            <i class="fa-solid fa-chart-line"></i>
-            <h3 data-t="f3_title">Analyses Réelles</h3>
-            <p data-t="f3_desc">Visualisez vos profits et vos meilleures ventes avec des graphiques haute précision.</p>
-        </div>
-    </section>
+        <div class="section-container" id="details">
+            <div class="section-grid reveal">
+                <div class="text-content">
+                    <h2 data-key="s1_h">Une Caisse Rapide, Même Hors-Ligne</h2>
+                    <p data-key="s1_p1">ShopMaster redéfinit l'expérience de vente. Notre interface de caisse est optimisée pour minimiser le nombre de clics. Scannez vos articles, appliquez des remises à la volée et validez le paiement en moins de trois secondes. Chaque transaction est traitée instantanément, garantissant que vos clients ne subissent aucune attente.</p>
+                    <p data-key="s1_p2">La technologie Cloud-Sync permet de continuer à vendre même si votre connexion internet tombe. Les données sont stockées localement et synchronisées dès que le réseau revient. C’est la garantie d’un commerce qui ne s’arrête jamais.</p>
+                </div>
+                <div class="visual-box">
+                    <i class="fa-solid fa-cash-register"></i>
+                    <div style="position:absolute; bottom:20px; color:var(--primary); font-weight:700;">FAST-UI ENGINE 2.0</div>
+                </div>
+            </div>
 
-    <div id="cookie-banner">
-        <p data-t="cookie_text">Nous utilisons des cookies pour améliorer votre expérience sur ShopMaster.</p>
-        <button onclick="acceptCookies()" class="cta-button" style="padding: 10px 20px;" data-t="cookie_btn">Accepter</button>
+            <div class="section-grid reveal" style="direction: rtl;">
+                <div class="text-content" style="direction: ltr;">
+                    <h2 data-key="s2_h">Gestion de Stock Intelligente</h2>
+                    <p data-key="s2_p1">Ne perdez plus jamais une vente à cause d'une rupture de stock imprévue. ShopMaster suit chaque unité de produit en temps réel. Dès qu'un article est vendu, votre inventaire est mis à jour sur tous vos appareils simultanément.</p>
+                    <p data-key="s2_p2">Le système inclut des alertes personnalisables : recevez une notification lorsque vos produits phares atteignent un seuil critique. Vous pouvez également gérer vos fournisseurs, vos numéros de série et vos variantes de produits (tailles, couleurs) avec une simplicité déconcertante, le tout gratuitement.</p>
+                </div>
+                <div class="visual-box">
+                    <i class="fa-solid fa-boxes-stacked"></i>
+                </div>
+            </div>
+
+            <div class="section-grid reveal">
+                <div class="text-content">
+                    <h2 data-key="s3_h">Analyses & Rapports Puissants</h2>
+                    <p data-key="s3_p1">Comprendre votre business est la clé de la croissance. ShopMaster transforme vos chiffres en graphiques clairs et exploitables. Suivez votre chiffre d'affaires quotidien, identifiez vos produits les plus rentables et observez les tendances de fréquentation de votre boutique.</p>
+                    <p data-key="s3_p2">Exportez vos rapports en un clic pour votre comptabilité. Que vous soyez sur mobile, tablette ou PC, vous gardez un œil sur la santé de votre entreprise où que vous soyez dans le monde.</p>
+                </div>
+                <div class="visual-box">
+                    <i class="fa-solid fa-chart-pie"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="cookie-bar">
+        <div style="flex:1">
+            <h4 style="margin-bottom:5px">Cookies & Privacy</h4>
+            <p style="font-size:0.8rem; color:var(--text-muted)" data-key="cookie_txt">Nous utilisons des cookies locaux pour sauvegarder vos préférences de thème et de langue. Aucune donnée n'est revendue.</p>
+        </div>
+        <button onclick="closeCookies()" class="cta-primary" style="padding:10px 20px; font-size:0.85rem;" data-key="cookie_btn">Accepter</button>
     </div>
 
     <script>
-        // --- TRANSLATIONS DICTIONARY ---
-        const translations = {
+        // --- DICTIONNAIRE ---
+        const content = {
             fr: {
-                hero_badge: "V2.0 — MAINTENANT DISPONIBLE",
-                hero_title: "Gérez votre empire <br><span style='color: var(--primary)'>sans limites.</span>",
-                hero_desc: "La solution de caisse et de gestion de stock la plus avancée du marché. Intuitive, rapide et conçue pour la performance.",
-                hero_cta: "Démarrer l'expérience",
-                nav_cta: "Accéder au Dashboard",
-                f1_title: "Vitesse Éclair",
-                f1_desc: "Une interface optimisée pour encaisser vos clients en moins de 3 secondes chrono.",
-                f2_title: "Stock Intelligent",
-                f2_desc: "Soyez alerté avant la rupture. ShopMaster prévoit vos besoins grâce à l'IA.",
-                f3_title: "Analyses Réelles",
-                f3_desc: "Visualisez vos profits et vos meilleures ventes avec des graphiques haute précision.",
-                cookie_text: "Nous utilisons des cookies pour améliorer votre expérience sur ShopMaster.",
+                badge: "PROJET OPEN-SOURCE GRATUIT",
+                hero_title: "Le futur de votre <br><span style='color:var(--primary)'>point de vente.</span>",
+                hero_desc: "Une solution logicielle complète, sans abonnement caché, conçue pour propulser les commerçants indépendants vers la réussite numérique totale.",
+                cta_main: "Accéder à ma caisse",
+                cta_sec: "En savoir plus",
+                s1_h: "Une Caisse Rapide, Même Hors-Ligne",
+                s1_p1: "ShopMaster redéfinit l'expérience de vente. Notre interface de caisse est optimisée pour minimiser le nombre de clics. Scannez vos articles, appliquez des remises à la volée et validez le paiement en moins de trois secondes.",
+                s1_p2: "La technologie Cloud-Sync permet de continuer à vendre même si votre connexion internet tombe. Les données sont stockées localement et synchronisées dès que le réseau revient.",
+                s2_h: "Gestion de Stock Intelligente",
+                s2_p1: "Ne perdez plus jamais une vente à cause d'une rupture de stock imprévue. ShopMaster suit chaque unité de produit en temps réel.",
+                s2_p2: "Le système inclut des alertes personnalisables : recevez une notification lorsque vos produits phares atteignent un seuil critique. Gérez fournisseurs et variantes sans frais.",
+                s3_h: "Analyses & Rapports Puissants",
+                s3_p1: "ShopMaster transforme vos chiffres en graphiques clairs et exploitables. Suivez votre CA quotidien et vos meilleures ventes.",
+                s3_p2: "Exportez vos rapports en un clic pour votre comptabilité. Compatible mobile, tablette et PC.",
+                cookie_txt: "Nous utilisons des cookies locaux pour sauvegarder vos préférences. Aucune donnée n'est revendue.",
                 cookie_btn: "Accepter"
             },
             en: {
-                hero_badge: "V2.0 — NOW AVAILABLE",
-                hero_title: "Manage your empire <br><span style='color: var(--primary)'>without limits.</span>",
-                hero_desc: "The most advanced POS and stock management solution. Intuitive, fast, and built for performance.",
-                hero_cta: "Start Experience",
-                nav_cta: "Go to Dashboard",
-                f1_title: "Lightning Fast",
-                f1_desc: "Interface optimized to checkout customers in under 3 seconds.",
-                f2_title: "Smart Inventory",
-                f2_desc: "Get alerted before running out. ShopMaster predicts your needs using AI.",
-                f3_title: "Real Analytics",
-                f3_desc: "Visualize profits and top sales with high-precision charts.",
-                cookie_text: "We use cookies to enhance your experience on ShopMaster.",
+                badge: "FREE OPEN-SOURCE PROJECT",
+                hero_title: "The future of your <br><span style='color:var(--primary)'>point of sale.</span>",
+                hero_desc: "A complete software solution, no hidden fees, designed to empower independent retailers toward total digital success.",
+                cta_main: "Go to Checkout",
+                cta_sec: "Learn More",
+                s1_h: "Fast Checkout, Even Offline",
+                s1_p1: "ShopMaster redefines the sales experience. Our checkout interface is optimized to minimize clicks. Scan items and complete payments in under three seconds.",
+                s1_p2: "Cloud-Sync technology lets you keep selling even if internet goes down. Data is stored locally and synced once the connection returns.",
+                s2_h: "Smart Inventory Management",
+                s2_p1: "Never lose a sale due to unexpected stockouts. ShopMaster tracks every unit in real-time.",
+                s2_p2: "Includes customizable alerts: get notified when top products reach a critical level. Manage suppliers and variants for free.",
+                s3_h: "Powerful Analytics & Reports",
+                s3_p1: "ShopMaster turns your numbers into clear, actionable charts. Track daily revenue and top sellers.",
+                s3_p2: "Export reports in one click for accounting. Works on mobile, tablet, and PC.",
+                cookie_txt: "We use local cookies to save your theme and language preferences. No data is sold.",
                 cookie_btn: "Accept"
             }
         };
 
-        // --- LANGUAGE LOGIC (IP/Browser based) ---
-        function detectLanguage() {
-            const userLang = navigator.language || navigator.userLanguage;
-            // Si l'utilisateur est en France ou utilise le français, on met FR, sinon EN
-            const lang = userLang.includes('fr') ? 'fr' : 'en';
-            document.getElementById('langSelect').value = lang;
-            applyLang(lang);
+        // --- GESTION LANGUE (DÉTECTION IP/BROWSER) ---
+        function initLanguage() {
+            const saved = localStorage.getItem('sm_lang');
+            if (saved) {
+                document.getElementById('langSelect').value = saved;
+                applyLang(saved);
+            } else {
+                // Détection simplifiée : si fuseau horaire France ou langue FR
+                const isFrance = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Paris') || navigator.language.startsWith('fr');
+                const lang = isFrance ? 'fr' : 'en';
+                document.getElementById('langSelect').value = lang;
+                applyLang(lang);
+            }
         }
 
-        function updateLang() {
+        function changeLanguage() {
             const lang = document.getElementById('langSelect').value;
+            localStorage.setItem('sm_lang', lang);
             applyLang(lang);
         }
 
         function applyLang(lang) {
-            document.querySelectorAll('[data-t]').forEach(el => {
-                const key = el.getAttribute('data-t');
-                el.innerHTML = translations[lang][key];
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(content[lang][key]) el.innerHTML = content[lang][key];
             });
         }
 
-        // --- THEME LOGIC ---
-        function updateTheme() {
+        // --- GESTION THÈME ---
+        function changeTheme() {
             const theme = document.getElementById('themeSelect').value;
+            localStorage.setItem('sm_theme', theme);
+            applyTheme(theme);
+        }
+
+        function applyTheme(theme) {
             if (theme === 'system') {
                 const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
                 document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
             } else {
                 document.documentElement.setAttribute('data-theme', theme);
             }
-            localStorage.setItem('sm_theme', theme);
         }
 
-        // --- COOKIES LOGIC ---
-        function acceptCookies() {
-            localStorage.setItem('sm_cookies', 'accepted');
-            document.getElementById('cookie-banner').classList.remove('active');
+        // --- COOKIES ---
+        function closeCookies() {
+            localStorage.setItem('sm_cookies_accepted', 'true');
+            document.getElementById('cookie-bar').classList.remove('show');
         }
 
-        // --- INITIALIZATION ---
+        // --- SCROLL REVEAL ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                var windowHeight = window.innerHeight;
+                var elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add("active");
+                }
+            });
+        }
+
+        // --- INIT ---
         window.onload = () => {
-            detectLanguage();
-            
-            // Theme recovery
+            initLanguage();
             const savedTheme = localStorage.getItem('sm_theme') || 'system';
             document.getElementById('themeSelect').value = savedTheme;
-            updateTheme();
+            applyTheme(savedTheme);
 
-            // Cookie banner
-            if(!localStorage.getItem('sm_cookies')) {
-                setTimeout(() => {
-                    document.getElementById('cookie-banner').classList.add('active');
-                }, 2000);
+            if (!localStorage.getItem('sm_cookies_accepted')) {
+                setTimeout(() => document.getElementById('cookie-bar').classList.add('show'), 2000);
             }
 
-            // GSAP Animations
-            gsap.from(".hero h1", { opacity: 0, y: 50, duration: 1, delay: 0.5 });
-            gsap.from(".hero p", { opacity: 0, y: 30, duration: 1, delay: 0.8 });
-            gsap.from(".feature-card", { 
-                scrollTrigger: ".features", 
-                opacity: 0, 
-                y: 100, 
-                stagger: 0.2, 
-                duration: 1 
-            });
+            window.addEventListener("scroll", reveal);
+            reveal(); // Initial check
         };
     </script>
 </body>
